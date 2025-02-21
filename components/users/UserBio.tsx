@@ -1,10 +1,11 @@
 import { format } from 'date-fns'
 import useCurrentUser from "@/hooks/useCurrentUser";
 import useUser from "@/hooks/useUser";
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import Button from '../Button';
 import { BiCalendar } from 'react-icons/bi';
 import useEditModal from '@/hooks/useEditModal';
+import useLoginModal from '@/hooks/useLoginModal';
 
 interface UserBioProps {
 	userId: string
@@ -14,6 +15,7 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
 	const {data: currentUser } = useCurrentUser();
 	const {data: fetchedUser } = useUser(userId);
 
+	const loginModal = useLoginModal();
 	const editModal = useEditModal();
 
 	const createdAt = useMemo(() => {
@@ -23,6 +25,13 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
 
 		return format(new Date(fetchedUser.createdAt), 'MMMM yyyy');
 	}, [fetchedUser?.createdAt]);
+
+	const handleFollow = useCallback(() => {
+		if (!currentUser) {
+			loginModal.onOpen();
+			return;
+		}
+	}, [currentUser, loginModal]);
 
 	return (
 		<div className='border-b-[1px] border-neutral-800 pb-4'>
@@ -37,7 +46,7 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
 				) : (
 					// Follow Button
 					<Button
-						onClick={() => {}}
+						onClick={handleFollow}
 						label='Follow'
 						secondary
 					/>

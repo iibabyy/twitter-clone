@@ -70,18 +70,21 @@ const RegisterModal = () => {
 			});
 
 			registerModal.onClose();
+
 		} catch (error) {
-			if (axios.isAxiosError(error)) {
+	
+			if (axios.isAxiosError(error)) {	// checking if axios
 				const data = error.response?.data;
 
 				if (data.message) {
 					console.log(data.message);
 					toast.error(data.message);
-				} else {
-					console.log("error: ", error.response);
-					toast.error("Something went wrong")
+					return ;
 				}
 			}
+
+			console.log("error: ", error);	// else
+			toast.error("Something went wrong")
 		}
 
 	}, [loginModal, registerModal])

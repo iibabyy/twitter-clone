@@ -55,8 +55,7 @@ model User {
 
 model Post {
   id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  body     String
-  comment  Boolean
+  content  String
   mediaUrl String?
 
   createdAt DateTime @default(now())
@@ -80,7 +79,7 @@ model Post {
 
 model Notification {
   id   String  @id @default(auto()) @map("_id") @db.ObjectId
-  body String
+  content String
   read Boolean @default(false)
 
   createdAt DateTime @default(now())
@@ -107,6 +106,8 @@ model Repost {
     // User
     userId String @db.ObjectId
     user   User   @relation("UserReposts", fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, postId])
 }
 
 model Like {
@@ -123,6 +124,8 @@ model Like {
     // User
     userId String @db.ObjectId
     user   User   @relation("UserLikes", fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([postId, userId])
 }
 
 model Follow {
@@ -139,11 +142,13 @@ model Follow {
     // Followee
     followeeId String @db.ObjectId
     followee   User   @relation("UserFollowing", fields: [followeeId], references: [id], onDelete: Cascade)
+
+    @@unique([followeeId, followerId])
 }
 
 model Comment {
   id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  body     String
+  content     String
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt

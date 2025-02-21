@@ -1,14 +1,11 @@
 import { z } from 'zod'
 
-export const loginSchema = z.object({
+export const loginSchema = z.object({		// no strong checks, to not indicate the error to brute-forces attacks
 	email: z
-		.string({ message: "Invalid Email" })
-		.email("Invalid Email"),
+		.string({ message: "Invalid Email" }),
 
 	password: z
 		.string({ message: "Invalid Password" })
-		.min(10, "Password must be at least 10 characters"),
-
 });
 
 export const registerSchema = z.object({

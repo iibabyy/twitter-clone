@@ -12,6 +12,7 @@ const SidebarPostButton = () => {
 	const onClick = useCallback(() => {
 		if (!currentUser) {
 			loginModal.onOpen();
+			return;
 		}
 	}, [loginModal, currentUser]);
 

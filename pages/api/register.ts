@@ -42,7 +42,7 @@ export default async function handler(
 		const primsaErr = TryFromPrismaError(err);
 		if (primsaErr) {
 			if (primsaErr.status == "error") {
-				return res.status(400).json({	// server error
+				return res.status(500).json({	// server error
 					status: "error",
 					message: primsaErr.message,
 				})
