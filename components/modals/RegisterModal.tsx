@@ -82,8 +82,6 @@ const RegisterModal = () => {
 					toast.error("Something went wrong")
 				}
 			}
-			console.log(error)
-			toast.error("Something went wrong")
 		}
 
 	}, [loginModal, registerModal])
