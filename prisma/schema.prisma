@@ -107,7 +107,7 @@ model Repost {
     userId String @db.ObjectId
     user   User   @relation("UserReposts", fields: [userId], references: [id], onDelete: Cascade)
 
-    @@unique([userId, postId])
+    @@unique(name: "userId_postId", [userId, postId])
 }
 
 model Like {
@@ -125,7 +125,7 @@ model Like {
     userId String @db.ObjectId
     user   User   @relation("UserLikes", fields: [userId], references: [id], onDelete: Cascade)
 
-    @@unique([postId, userId])
+    @@unique(name: "userId_postId", [userId, postId])
 }
 
 model Follow {
@@ -143,7 +143,7 @@ model Follow {
     followeeId String @db.ObjectId
     followee   User   @relation("UserFollowing", fields: [followeeId], references: [id], onDelete: Cascade)
 
-    @@unique([followeeId, followerId])
+    @@unique(name: "followeeId_followerId", [followeeId, followerId])
 }
 
 model Comment {

@@ -18,6 +18,10 @@ const serverAuth = async (
 	const currentUser = await prisma.user.findUnique({
 		where: {
 			email: session.user.email
+		},
+		include: {
+			followers: true,
+			following: true,
 		}
 	});
 
