@@ -12,19 +12,19 @@ export default async function handler(
 	}
 
 	try {
-		const { userId } = req.body;
+		const { username } = req.body;
 
 		const { currentUser } = await serverAuth(req, res);
 
-		if (!userId || typeof userId !== "string") {
-			throw new Error("Invalid Id");
+		if (!username || typeof username !== "string") {
+			throw new Error("Invalid username");
 		}
 
 		if (req.method === "POST") {
 			await prisma.follow.create({
 				data: {
-					followeeId: userId,
-					followerId: currentUser.id,
+					followeeUsername: username,
+					followerUsername: currentUser.username,
 				}
 			});
 		}
@@ -32,9 +32,9 @@ export default async function handler(
 		if (req.method === "DELETE") {
 			await prisma.follow.delete({
 				where: {
-					followeeId_followerId: {	// unique key
-						followeeId: userId,
-						followerId: currentUser.id,
+					followeeUsername_followerUsername: {	// unique key
+						followeeUsername: username,
+						followerUsername: currentUser.username,
 					}
 				}
 			});

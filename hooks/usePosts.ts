@@ -2,8 +2,8 @@ import useSWR from 'swr';
 
 import fetcher from '@/libs/fetcher';
 
-const usePosts = (userId?: string) => {
-	const url = userId? `/api/posts?userId=${userId}` : '/api/posts'
+const usePosts = (username?: string) => {
+	const url = username? `/api/posts?username=${username}` : '/api/posts'
 
 	const {
 		data,

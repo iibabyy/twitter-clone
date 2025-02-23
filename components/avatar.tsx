@@ -4,25 +4,25 @@ import { useRouter } from "next/router";
 import React, { useCallback } from "react";
 
 interface AvatarProps {
-	userId: string,
+	username: string,
 	isLarge?: boolean,
 	hasBorder?: boolean
 }
 
 const Avatar: React.FC<AvatarProps> = ({
-	userId,
+	username,
 	isLarge,
 	hasBorder,
 }) => {
-	const {data: fetchedUser } = useUser(userId);
+	const {data: fetchedUser } = useUser(username);
 	const router = useRouter();
 	const onClick = useCallback((event: any) => {
 		event.stopPropagation();
 
-		const url = `/users/${userId}`;
+		const url = `/${username}`;
 
 		router.push(url)
-	}, [router, userId]);
+	}, [router, username]);
 
 	return (
 		<div className={`

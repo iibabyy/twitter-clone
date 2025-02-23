@@ -11,14 +11,14 @@ export default async function handler(
 	}
 
 	try {
-		const { userId } = req.query;
+		const { username } = req.query;
 
-		if (!userId || typeof userId !== 'string') {
+		if (!username || typeof username !== 'string') {
 			throw new Error("invalid ID");
 		}
 
 		const user = await prisma.user.findUnique({
-			where: { id: userId },
+			where: { username },
 			include: {
 				_count: {
 					select: {

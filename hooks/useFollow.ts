@@ -5,20 +5,18 @@ import useUser from "./useUser";
 import toast from "react-hot-toast";
 import axios from "axios";
 
-const useFollow = (userId: string) => {
+const useFollow = (username: string) => {
 	const { data: curentUser, mutate: mutateCurrentUser } = useCurrentUser();
-	const { mutate: mutateFetchedUser } = useUser(userId);
+	const { mutate: mutateFetchedUser } = useUser(username);
 
 	const loginModal = useLoginModal();
 
 	const isFollowing = useMemo(() => {
-		console.log("BBBBBBBBB: ", curentUser);
 		const list = curentUser?.following || [];
 
-		const followingIds = list.map((follow: any) => follow.followeeId);
-		console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAA: ", followingIds);
-		return followingIds.includes(userId);
-	}, [userId, curentUser?.following]);
+		const followingUsernames = list.map((follow: any) => follow.followeeUsername);
+		return followingUsernames.includes(username);
+	}, [username, curentUser?.following]);
 
 	const toggleFollow = useCallback(async () => {
 		if (!curentUser) {
@@ -29,9 +27,9 @@ const useFollow = (userId: string) => {
 			let request;
 
 			if (isFollowing) {
-				request = () => axios.delete('/api/follow', { data: { userId } });
+				request = () => axios.delete('/api/follow', { data: { username } });
 			} else {
-				request = () => axios.post('/api/follow', { userId });
+				request = () => axios.post('/api/follow', { username });
 			} 
 
 			await request();
@@ -48,7 +46,7 @@ const useFollow = (userId: string) => {
 		loginModal,
 		curentUser,
 		isFollowing,
-		userId,
+		username,
 		mutateCurrentUser,
 		mutateFetchedUser
 	]);

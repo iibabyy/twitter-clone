@@ -15,7 +15,6 @@ export const authOptions: AuthOptions = {
 				password: { label: 'pasword', type: 'password' },
 			},
 			async authorize(credentials) {
-				console.log("------[ AUTHORIZING ]------")
 				if (!credentials?.email || !credentials?.password) {
 					throw new Error('Invalid credentials')
 				}
@@ -39,7 +38,6 @@ export const authOptions: AuthOptions = {
 					throw new Error('Invalid credentials')
 				}
 
-				console.log("------[ AUTHORIZED ]------")
 				return user;
 			}
 		}),

@@ -7,13 +7,13 @@ import Avatar from "../avatar";
 import { AiOutlineHeart, AiOutlineMessage } from "react-icons/ai";
 
 interface PostItemProps {
-	userId?: string,
+	username?: string,
 	data: Record<string, any>
 }
 
 const PostItem: React.FC<PostItemProps> = ({
 	data,
-	userId,
+	username,
 }) => {
 	const router = useRouter();
 	const loginModal = useLoginModal();
@@ -23,8 +23,8 @@ const PostItem: React.FC<PostItemProps> = ({
 	const goToUser = useCallback((event: any) => {
 		event.stopPropagation();
 
-		router.push(`/user/${data.user.id}`);
-	}, [router, data.user.id]);
+		router.push(`/user/${data.user.username}`);
+	}, [router, data.user.username]);
 
 	const goToPost = useCallback(() => {
 		router.push(`/posts/${data.id}`)
@@ -57,7 +57,7 @@ const PostItem: React.FC<PostItemProps> = ({
 			"
 		>
 			<div className="flex flex-row items-start gap-3">
-				<Avatar userId={data.user.id} />
+				<Avatar username={data.user.username} />
 				<div>
 					<div className="flex flex-row items-center gap-2">
 						<p

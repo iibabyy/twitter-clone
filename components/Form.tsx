@@ -34,32 +34,33 @@ const Form: React.FC<FormProps> = ({
 	const [isLoading, setIsLoading] = useState(false);
 
 	const onSubmit= useCallback(async () => {
-			try {
-				setIsLoading(true);
+		try {
+			setIsLoading(true);
 
-				await axios.post('/api/posts', { content });
+			await axios.post('/api/posts', { content });
 
-				toast.success('Post created');
-				mutatePosts();
+			toast.success('Post created');
+			mutatePosts();
 
-			} catch (error) {
+			setContent("");
+		} catch (error) {
 
-				if (axios.isAxiosError(error)) {	// checking if axios
-					const data = error.response?.data;
-	
-					if (data.message) {
-						console.log(data.message);
-						toast.error(data.message);
-						return ;
-					}
+			if (axios.isAxiosError(error)) {	// checking if axios
+				const data = error.response?.data;
+
+				if (data.message) {
+					console.log(data.message);
+					toast.error(data.message);
+					return ;
 				}
-
-				console.log(error)
-				toast.error('Something went wrong')
-			} finally {
-				setIsLoading(false);
 			}
-		}, [mutatePosts, setIsLoading, content])
+
+			console.log(error)
+			toast.error('Something went wrong')
+		} finally {
+			setIsLoading(false);
+		}
+	}, [mutatePosts, setIsLoading, content])
 
 
 	return (
@@ -67,7 +68,7 @@ const Form: React.FC<FormProps> = ({
 			{currentUser ? (
 				<div className="flex flex-row gap-4">
 					<div>
-						<Avatar userId={currentUser?.id} />
+						<Avatar username={currentUser?.username} />
 					</div>
 					<div className="w-full">
 						<textarea

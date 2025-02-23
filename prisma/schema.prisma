@@ -15,8 +15,8 @@ datasource db {
 
 model User {
   id               String    @id @default(auto()) @map("_id") @db.ObjectId
-  name             String?
-  username         String?   @unique
+  name             String
+  username         String   @unique
   email            String?   @unique
   hashedPassword   String?
   bio              String?
@@ -64,8 +64,8 @@ model Post {
   /* Relations */
 
     // User
-    userId String @db.ObjectId
-    user   User   @relation("UserPosts", fields: [userId], references: [id], onDelete: Cascade)
+    username String
+    user   User   @relation("UserPosts", fields: [username], references: [username], onDelete: Cascade)
 
     // Reposts
     reposts Repost[] @relation("Reposts")
@@ -87,8 +87,8 @@ model Notification {
   /* Relations */
 
     // User
-    userId String @db.ObjectId
-    user   User   @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
+    username String
+    user   User   @relation("UserNotifications", fields: [username], references: [username], onDelete: Cascade)
 }
 
 model Repost {
@@ -104,10 +104,10 @@ model Repost {
     post   Post   @relation("Reposts", fields: [postId], references: [id], onDelete: Cascade)
 
     // User
-    userId String @db.ObjectId
-    user   User   @relation("UserReposts", fields: [userId], references: [id], onDelete: Cascade)
+    username String
+    user   User   @relation("UserReposts", fields: [username], references: [username], onDelete: Cascade)
 
-    @@unique(name: "userId_postId", [userId, postId])
+    @@unique(name: "username_postId", [username, postId])
 }
 
 model Like {
@@ -122,10 +122,10 @@ model Like {
     post   Post   @relation("Likes", fields: [postId], references: [id], onDelete: Cascade)
 
     // User
-    userId String @db.ObjectId
-    user   User   @relation("UserLikes", fields: [userId], references: [id], onDelete: Cascade)
+    username String
+    user   User   @relation("UserLikes", fields: [username], references: [username], onDelete: Cascade)
 
-    @@unique(name: "userId_postId", [userId, postId])
+    @@unique(name: "username_postId", [username, postId])
 }
 
 model Follow {
@@ -136,14 +136,14 @@ model Follow {
   /* Relations */
 
     // Follower
-    followerId String @db.ObjectId
-    follower   User   @relation("UserFollowers", fields: [followerId], references: [id], onDelete: Cascade)
+    followerUsername String
+    follower   User   @relation("UserFollowing", fields: [followerUsername], references: [username], onDelete: Cascade)
 
     // Followee
-    followeeId String @db.ObjectId
-    followee   User   @relation("UserFollowing", fields: [followeeId], references: [id], onDelete: Cascade)
+    followeeUsername String
+    followee   User   @relation("UserFollowers", fields: [followeeUsername], references: [username], onDelete: Cascade)
 
-    @@unique(name: "followeeId_followerId", [followeeId, followerId])
+    @@unique(name: "followeeUsername_followerUsername", [followeeUsername, followerUsername])
 }
 
 model Comment {
@@ -165,6 +165,6 @@ model Comment {
     parent   Comment?   @relation("CommentParent", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
     // User
-    userId String @db.ObjectId
-    user   User   @relation("UserComments", fields: [userId], references: [id], onDelete: Cascade)
+    username String
+    user   User   @relation("UserComments", fields: [username], references: [username], onDelete: Cascade)
 }

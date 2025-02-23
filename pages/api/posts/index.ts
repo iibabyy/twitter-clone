@@ -20,7 +20,7 @@ export default async function handler(
 			const post = await prisma.post.create({
 				data: {
 					content,
-					userId: currentUser.id
+					username: currentUser.username
 				}
 			});
 
@@ -28,14 +28,20 @@ export default async function handler(
 		}
 
 		if (req.method === "GET") {
-			const { userId } = req.query;
+			const { username/*, page, limit*/ } = req.query;
 
+
+
+			// const posts_to_skip: number = (page - 1) * limit;
+			
 			let posts;
 
-			if (userId && typeof userId === 'string') {
+			if (username && typeof username === 'string') {
 				posts = await prisma.post.findMany({
-					where: {
-						userId,
+					where: {	
+						user: {
+							username
+						},
 					},
 
 					include: {

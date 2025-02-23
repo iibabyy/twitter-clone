@@ -8,9 +8,9 @@ import { ClipLoader } from "react-spinners";
 
 const UserView = () => {
 	const router = useRouter();
-	const { userId } = router.query;
+	const { username } = router.query;
 
-	const { data: fetchedUser, isLoading} = useUser(userId as string);
+	const { data: fetchedUser, isLoading} = useUser(username as string);
 
 	if (isLoading || !fetchedUser) {
 		return (
@@ -28,9 +28,9 @@ const UserView = () => {
 	return (
 		<>
 			<Header showBackArrow label={fetchedUser?.name} />
-			<UserHero userId={userId as string} />
-			<UserBio userId={userId as string} />
-			<PostFeed userId={userId as string} />
+			<UserHero username={username as string} />
+			<UserBio username={username as string} />
+			<PostFeed username={username as string} />
 		</>
 	);
 }

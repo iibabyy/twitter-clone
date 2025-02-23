@@ -11,7 +11,7 @@ import ImageUpload from "../ImageUpload";
 
 const EditModal = () => {
 	const { data: currentUser } = useCurrentUser();
-	const { mutate: mutateFetchedUser } = useUser(currentUser?.id);
+	const { mutate: mutateFetchedUser } = useUser(currentUser?.username);
 	const editModal = useEditModal();
 
 	const [profileImage, setProfileImage] = useState("");
